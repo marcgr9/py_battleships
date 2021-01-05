@@ -1,7 +1,7 @@
 # board.py
 # marc, marc@gruita.ro
 
-from src.utils import anything, ShotResult
+from src.utils import ShotResult
 
 
 class Board:
@@ -13,7 +13,6 @@ class Board:
     def __str__(self):
         msg = ""
         for row in self._board:
-            #msg += str(row) + "\n"
             for n in row:
                 msg += str(n) if n > -500 else '-'
                 msg += " "
@@ -28,6 +27,10 @@ class Board:
     @property
     def ships(self):
         return self._ships
+
+    @property
+    def size(self):
+        return self._size
 
     def place_ship(self, ship):
         self._check(ship)

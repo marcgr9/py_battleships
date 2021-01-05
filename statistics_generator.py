@@ -39,6 +39,6 @@ for ai_offset in range(1, 51):
             except Exception as e:
                 pass
         score += game.n
-    f.write("offset " + str(ai_offset) + " - " + str(score) + " total shots over " + str(iterations) + " games; avg " + str(score/iterations) +  "\n")
+    f.write("offset " + str(ai_offset) + " - " + str(score) + " total shots over " + str(iterations) + " games; avg "
+            + str(score/iterations) + "\n")
     f.close()
-

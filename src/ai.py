@@ -1,15 +1,12 @@
 # ai.py
 # marc, marc@gruita.ro
-from copy import deepcopy
-from time import sleep
-
 from src.board import Board
 from src.ship import Ship
 from src.utils import ShotResult, anything
 
 
 class AI:
-    def __init__(self, board_size, ships, offset=42):
+    def __init__(self, board_size, offset):
         self.__size = board_size
         self.offset = offset
 

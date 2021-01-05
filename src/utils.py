@@ -31,6 +31,7 @@ class ShotResult(Enum):
     HIT = 0
     SUNK = 1
     WON = 2
+    ALREADY_HIT = 3
 
 
 @unique
