@@ -15,9 +15,11 @@ class Game:
         self._winner = None
         self._ai_moves = []
         self.__ships = [
-            Ship(ShipType.BARCA),
-            Ship(ShipType.SUBMARIN),
-            Ship(ShipType.DESTROYER)
+            Ship(ShipType.CARRIER),
+            Ship(ShipType.BATTLESHIP),
+            Ship(ShipType.DESTROYER),
+            Ship(ShipType.SUBMARINE),
+            Ship(ShipType.PATROL_BOAT)
         ]
 
     @property

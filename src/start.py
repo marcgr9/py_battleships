@@ -18,9 +18,11 @@ game = Game(player, ai)
 #     except Exception:
 #         print("loc ocupat")
 
-game.place_ship(ShipType.BARCA, 1, 2, 2)
-game.place_ship(ShipType.SUBMARIN, 1, 5, 5)
+game.place_ship(ShipType.CARRIER, 1, 5, 5)
+game.place_ship(ShipType.BATTLESHIP, 0, 0, 0)
 game.place_ship(ShipType.DESTROYER, 0, 9, 0)
+game.place_ship(ShipType.SUBMARINE, 0, 7, 0)
+game.place_ship(ShipType.PATROL_BOAT, 1, 9, 9)
 
 print("starting game")
 game.start()

@@ -1,7 +1,7 @@
 # ship.py
 # marc, marc@gruita.ro
 
-from enum import Enum
+from aenum import Enum, NoAlias
 from typing import List
 
 from src.utils import Coords, anything, ShotResult
@@ -58,9 +58,13 @@ class Ship:
 
 
 class ShipType(Enum):
-    DESTROYER = 5
-    BARCA = 3
-    SUBMARIN = 2
+    _settings_ = NoAlias
+
+    CARRIER = 5
+    BATTLESHIP = 4
+    DESTROYER = 3
+    SUBMARINE = 3
+    PATROL_BOAT = 2
 
     @property
     def size(self):
