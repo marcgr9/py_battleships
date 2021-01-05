@@ -1,6 +1,7 @@
 from src.board import Board
 from src.game import Game
 from src.ship import ShipType
+from src.utils import ShotResult, Players
 
 player = Board(10)
 ai = Board(10)
@@ -24,25 +25,31 @@ game.place_ship(ShipType.DESTROYER, 0, 9, 0)
 print("starting game")
 game.start()
 print(game._ai_board)
+msgs = {
+    ShotResult.MISS: "Miss",
+    ShotResult.HIT: "Hit",
+    ShotResult.SUNK: "Sunk {var}",
+    ShotResult.WON: "{var} won!"
+}
+
+players = {
+    Players.AI: "AI",
+    Players.HUMAN: "You"
+}
 # n = 0
 
 while game.playing:
     x, y = input().split(" ")
+    # x, y = 0, 0
     try:
         response = game.shoot(int(x), int(y))
-        if type(response) == ShipType:
-            print("Sunk " + response.name)
-            print(game._player_board)
-        elif type(response) in (int, bool):
-            if response == 0:
-                print("Hit")
-                pass
+        if type(response) == tuple:
+            if type(response[1]) == ShipType:
+                print(msgs[response[0]].format(var=response[1].name))
             else:
-                # n += 1
-                print("Miss")  # , n)
-
+                print(msgs[response[0]].format(var=players[response[1]]))
         else:
-            print(response, "won")
+            print(msgs[response])
 
-    except Exception:
-        print("Invalid move")
+    except Exception as e:
+        print("Invalid move" + str(e))

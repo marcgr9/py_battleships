@@ -1,5 +1,7 @@
 # utils.py
 # marc, marc@gruita.ro
+from enum import Enum, unique
+
 
 class Anything:
     def __eq__(self, other):
@@ -10,12 +12,7 @@ anything = Anything()
 
 
 class Coords:
-    def __init__(self, x=-1, y=-1, pair=(-1, -1)):
-        if pair is not (-1, -1):
-            self.__x = pair[0]
-            self.__y = pair[1]
-            return
-
+    def __init__(self, x, y):
         self.__x = x
         self.__y = y
 
@@ -27,3 +24,16 @@ class Coords:
     def y(self):
         return self.__y
 
+
+@unique
+class ShotResult(Enum):
+    MISS = -1
+    HIT = 0
+    SUNK = 1
+    WON = 2
+
+
+@unique
+class Players(Enum):
+    HUMAN = 0
+    AI = 1

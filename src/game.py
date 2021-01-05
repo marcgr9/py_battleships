@@ -4,6 +4,7 @@
 from random import randint
 from src.board import Board
 from src.ship import Ship, ShipType
+from src.utils import ShotResult, Players
 
 
 class Game:
@@ -58,11 +59,11 @@ class Game:
         response = self._ai_board.shoot(x, y)
         self.__ai_shoot()
 
-        return response if self.__check_game_won() is None else self.__check_game_won()
+        return response if self.__check_game_won() is None else (ShotResult.WON, self.__check_game_won())
 
     def __check_game_won(self):
         if all(s.sunk for s in self._player_board.ships):
-            self._winner = "ai"
+            self._winner = Players.AI
         elif all(s.sunk for s in self._ai_board.ships):
-            self._winner = "player"
+            self._winner = Players.HUMAN
         return self._winner

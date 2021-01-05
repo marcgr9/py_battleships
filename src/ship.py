@@ -4,7 +4,7 @@
 from enum import Enum
 from typing import List
 
-from src.utils import Coords, anything
+from src.utils import Coords, anything, ShotResult
 
 
 class Ship:
@@ -52,8 +52,9 @@ class Ship:
                 sunk = all(p[0] is False for p in self.pieces)
                 if sunk:
                     self._sunk = True
-                return sunk if not sunk else self.type
-        return -1
+                    return ShotResult.SUNK, self.type
+                return ShotResult.HIT
+        return ShotResult.MISS
 
 
 class ShipType(Enum):

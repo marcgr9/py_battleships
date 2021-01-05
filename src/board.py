@@ -1,7 +1,7 @@
 # board.py
 # marc, marc@gruita.ro
 
-from src.utils import anything
+from src.utils import anything, ShotResult
 
 
 class Board:
@@ -57,9 +57,9 @@ class Board:
 
         for s in self.ships:
             hit = s.check_hit(x, y)
-            if hit != -1:
+            if hit != ShotResult.MISS:
                 return hit
-        return -1
+        return ShotResult.MISS
 
 
 
