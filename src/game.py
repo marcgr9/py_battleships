@@ -2,9 +2,11 @@
 # marc, marc@gruita.ro
 
 from random import randint
+
+from src.ai import AI
 from src.board import Board
 from src.ship import Ship, ShipType
-from src.utils import ShotResult, Players
+from src.utils import ShotResult, Players, anything
 
 
 class Game:
@@ -21,6 +23,7 @@ class Game:
             Ship(ShipType.SUBMARINE),
             Ship(ShipType.PATROL_BOAT)
         ]
+        self.__ai = AI(self._player_board._size, self.__ships)
 
     @property
     def playing(self):
@@ -43,12 +46,19 @@ class Game:
     def __ai_shoot(self):
         x = randint(0, 9)
         y = randint(0, 9)
-        while (x, y) in self._ai_moves:
+        while (anything, x, y) in self._ai_moves:
             x = randint(0, 9)
             y = randint(0, 9)
 
-        self._ai_moves.append((x, y))
-        self._player_board.shoot(x, y)
+        result = self._player_board.shoot(x, y)
+        self._ai_moves.append((result, x, y))
+
+    def __cool_ai_shoot(self):
+        x, y = self.__ai.calculate_shot(self._ai_moves)
+        while (anything, x, y) in self._ai_moves:
+            x, y = self.__ai.calculate_shot(self._ai_moves)
+        result = self._player_board.shoot(x, y)
+        self._ai_moves.append((result, x, y))
 
     def get_player_ships(self):
         while len(self._player_board.ships) != len(self.__ships):
@@ -59,7 +69,7 @@ class Game:
 
     def shoot(self, x, y):
         response = self._ai_board.shoot(x, y)
-        self.__ai_shoot()
+        self.__cool_ai_shoot()
 
         return response if self.__check_game_won() is None else (ShotResult.WON, self.__check_game_won())
 

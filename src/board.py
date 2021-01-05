@@ -7,13 +7,17 @@ from src.utils import anything, ShotResult
 class Board:
     def __init__(self, size):
         self._size = size
-        self._board = [[0 for _ in range(size)] for _ in range(10)]
+        self._board = [[0 for _ in range(size)] for _ in range(size)]
         self._ships = []
 
     def __str__(self):
         msg = ""
         for row in self._board:
-            msg += str(row) + "\n"
+            #msg += str(row) + "\n"
+            for n in row:
+                msg += str(n) if n > 0 else '-'
+                msg += " "
+            msg += "\n"
         msg = msg[:-1]
         return msg
 
@@ -26,7 +30,7 @@ class Board:
         return self._ships
 
     def place_ship(self, ship):
-        self.__check(ship)
+        self._check(ship)
         for i in range(ship.size):
             x, y = ship.coords.x - i*ship.orientation, ship.coords.y + i*(not ship.orientation)
             self._board[x][y] = 1
@@ -34,9 +38,9 @@ class Board:
 
         self._ships.append(ship)
 
-    def __check(self, ship):
+    def _check(self, ship):
         for i in range(ship.size):
-            if self._board[ship.coords.x - i * ship.orientation][ship.coords.y + i * (not ship.orientation)] == 1 or \
+            if self._board[ship.coords.x - i * ship.orientation][ship.coords.y + i * (not ship.orientation)] != 0 or \
                 (not 0 <= ship.coords.x - i * ship.orientation <= self._size) or \
                     (not 0 <= ship.coords.y + i * (not ship.orientation) <= self._size):
                 raise Exception
@@ -58,10 +62,6 @@ class Board:
         for s in self.ships:
             hit = s.check_hit(x, y)
             if hit != ShotResult.MISS:
+                print(hit)
                 return hit
         return ShotResult.MISS
-
-
-
-
-
