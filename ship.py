@@ -2,6 +2,8 @@
 # marc, marc@gruita.ro
 
 from enum import Enum
+from typing import List, Tuple
+
 from coords import Coords
 
 
@@ -11,6 +13,7 @@ class Ship:
         self._orientation = orientation
         self._coords = Coords(x, y)
         self._sunk = False
+        self._pieces: List[List[bool, int, int]] = []
 
     def __eq__(self, other):
         return type(other) == Ship and other.type == self.type
@@ -30,6 +33,13 @@ class Ship:
     @property
     def coords(self):
         return self._coords
+
+    @property
+    def pieces(self):
+        return self._pieces
+
+    def add_piece(self, x, y):
+        self._pieces.append([True, x, y])
 
 
 class ShipType(Enum):

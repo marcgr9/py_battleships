@@ -1,6 +1,7 @@
 from board import Board
 from game import Game
 from ship import ShipType
+from utils import anything
 
 player = Board(10)
 ai = Board(10)
@@ -21,6 +22,22 @@ game = Game(player, ai)
 #         print(game._player_board)
 #     except Exception:
 #         print("loc ocupat")
-game.start()
+# game.start()
+#
+# print(game._ai_board)
+#
+# while game._winner is None:
+#     x = int(input())
+#     y = int(input())
+#
+#     response = game.shoot(x, y)
 
+game._place_ai_ships()
 print(game._ai_board)
+
+while True:
+    x = int(input())
+    y = int(input())
+
+    print(game.shoot(x, y))
+    print(game._ai_board)

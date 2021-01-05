@@ -2,7 +2,7 @@
 # marc, marc@gruita.ro
 
 from ship import Ship
-from array import *
+from utils import anything
 
 
 class Board:
@@ -28,9 +28,12 @@ class Board:
 
     def place_ship(self, ship):
         self.__check(ship)
-        self._ships.append(ship)
         for i in range(ship.size):
-            self._board[ship.coords.x - i*ship.orientation][ship.coords.y + i*(not ship.orientation)] = 1
+            x, y = ship.coords.x - i*ship.orientation, ship.coords.y + i*(not ship.orientation)
+            self._board[x][y] = 1
+            ship.add_piece(x, y)
+
+        self._ships.append(ship)
 
     def __check(self, ship):
         for i in range(ship.size):
@@ -38,4 +41,20 @@ class Board:
                 (not 0 <= ship.coords.x - i * ship.orientation <= self._size) or \
                     (not 0 <= ship.coords.y + i * (not ship.orientation) <= self._size):
                 raise Exception
-        return True
+
+    def shoot(self, x, y):
+        if not ((0 <= x <= self._size) and
+                (0 <= y <= self._size)):
+            raise Exception
+
+        for s in self.ships:
+            for p in s.pieces:
+                if p == [anything, x, y]:
+                    p[0] = False
+                    self.board[x][y] = 2
+                    response = all(p[0] is False for p in s.pieces)
+                    return response if not response else s.type
+        return -1  #miss
+
+
+

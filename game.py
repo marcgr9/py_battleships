@@ -12,7 +12,6 @@ class Game:
         self._ai_board = ai_board
         self._playing = False
         self._winner = None
-        self._moving_player = 0  # todo
         self._moves = []
         self.__ships = [
             Ship(ShipType.BARCA),
@@ -40,3 +39,6 @@ class Game:
 
     def place_ship(self, ship_type: ShipType, orientation: int, x: int, y: int):
         self._player_board.place_ship(Ship(ship_type, orientation, x, y))
+
+    def shoot(self, x, y):
+        return self._ai_board.shoot(x, y)
