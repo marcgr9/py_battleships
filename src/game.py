@@ -10,7 +10,7 @@ from src.utils import ShotResult, Players, anything
 
 
 class Game:
-    def __init__(self, player_board: Board, ai_board: Board):
+    def __init__(self, player_board: Board, ai_board: Board, ai_offset):
         self._player_board = player_board
         self._ai_board = ai_board
         self._playing = False
@@ -31,7 +31,7 @@ class Game:
             Ship(ShipType.SUBMARINE),
             Ship(ShipType.PATROL_BOAT)
         ]
-        self.__ai = AI(self._player_board._size, self.__ships)
+        self.__ai = AI(self._player_board._size, self.__ships, ai_offset)
 
     @property
     def playing(self):

@@ -9,8 +9,9 @@ from src.utils import ShotResult, anything
 
 
 class AI:
-    def __init__(self, board_size, ships):
+    def __init__(self, board_size, ships, offset=42):
         self.__size = board_size
+        self.offset = offset
 
     def calculate_shot(self, moves, ships):
         ships = ships
@@ -21,21 +22,20 @@ class AI:
             board.shoot(x, y)
             prob_board.board[x][y] = -1000
             if move[0] == ShotResult.HIT:
-                offset = 9
                 try:
-                    prob_board.board[x + 1][y] += offset
+                    prob_board.board[x + 1][y] += self.offset
                 except Exception:
                     pass
                 try:
-                    prob_board.board[x][y+1] += offset
+                    prob_board.board[x][y+1] += self.offset
                 except Exception:
                     pass
                 try:
-                    prob_board.board[x][y-1] += offset
+                    prob_board.board[x][y-1] += self.offset
                 except Exception:
                     pass
                 try:
-                    prob_board.board[x-1][y] += offset
+                    prob_board.board[x-1][y] += self.offset
                 except Exception:
                     pass
 

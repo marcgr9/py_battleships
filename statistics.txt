@@ -1,0 +1,55 @@
+marc gruita
+marc@gruita.ro
+
+The lower the score the better
+*------------------------------*
+offset 1 - 7222 total shots over 100 games; avg 72.22
+offset 2 - 6657 total shots over 100 games; avg 66.57
+offset 3 - 6339 total shots over 100 games; avg 63.39
+offset 4 - 6265 total shots over 100 games; avg 62.65
+offset 5 - 5998 total shots over 100 games; avg 59.98
+offset 6 - 5936 total shots over 100 games; avg 59.36
+offset 7 - 5883 total shots over 100 games; avg 58.83
+offset 8 - 5760 total shots over 100 games; avg 57.6
+offset 9 - 5589 total shots over 100 games; avg 55.89
+offset 10 - 5444 total shots over 100 games; avg 54.44
+offset 11 - 5507 total shots over 100 games; avg 55.07
+offset 12 - 5407 total shots over 100 games; avg 54.07
+offset 13 - 5344 total shots over 100 games; avg 53.44
+offset 14 - 5387 total shots over 100 games; avg 53.87
+offset 15 - 5313 total shots over 100 games; avg 53.13
+offset 16 - 5430 total shots over 100 games; avg 54.3
+offset 17 - 5337 total shots over 100 games; avg 53.37
+offset 18 - 5377 total shots over 100 games; avg 53.77
+offset 19 - 5560 total shots over 100 games; avg 55.6
+offset 20 - 5377 total shots over 100 games; avg 53.77
+offset 21 - 5524 total shots over 100 games; avg 55.24
+offset 22 - 5384 total shots over 100 games; avg 53.84
+offset 23 - 5378 total shots over 100 games; avg 53.78
+offset 24 - 5354 total shots over 100 games; avg 53.54
+offset 25 - 5326 total shots over 100 games; avg 53.26
+offset 26 - 5408 total shots over 100 games; avg 54.08
+offset 27 - 5480 total shots over 100 games; avg 54.8
+offset 28 - 5401 total shots over 100 games; avg 54.01
+offset 29 - 5363 total shots over 100 games; avg 53.63
+offset 30 - 5453 total shots over 100 games; avg 54.53
+offset 31 - 5359 total shots over 100 games; avg 53.59
+offset 32 - 5490 total shots over 100 games; avg 54.9
+offset 33 - 5471 total shots over 100 games; avg 54.71
+offset 34 - 5362 total shots over 100 games; avg 53.62
+offset 35 - 5391 total shots over 100 games; avg 53.91
+offset 36 - 5400 total shots over 100 games; avg 54.0
+offset 37 - 5445 total shots over 100 games; avg 54.45
+offset 38 - 5381 total shots over 100 games; avg 53.81
+offset 39 - 5346 total shots over 100 games; avg 53.46
+offset 40 - 5431 total shots over 100 games; avg 54.31
+offset 41 - 5585 total shots over 100 games; avg 55.85
+offset 42 - 5284 total shots over 100 games; avg 52.84
+offset 43 - 5286 total shots over 100 games; avg 52.86
+offset 44 - 5407 total shots over 100 games; avg 54.07
+offset 45 - 5414 total shots over 100 games; avg 54.14
+offset 46 - 5398 total shots over 100 games; avg 53.98
+offset 47 - 5444 total shots over 100 games; avg 54.44
+offset 48 - 5411 total shots over 100 games; avg 54.11
+offset 49 - 5412 total shots over 100 games; avg 54.12
+offset 50 - 5556 total shots over 100 games; avg 55.56
