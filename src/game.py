@@ -16,7 +16,15 @@ class Game:
         self._playing = False
         self._winner = None
         self._ai_moves = []
+        self.n = 0
         self.__ships = [
+            Ship(ShipType.CARRIER),
+            Ship(ShipType.BATTLESHIP),
+            Ship(ShipType.DESTROYER),
+            Ship(ShipType.SUBMARINE),
+            Ship(ShipType.PATROL_BOAT)
+        ]
+        self.__ai_boats = [
             Ship(ShipType.CARRIER),
             Ship(ShipType.BATTLESHIP),
             Ship(ShipType.DESTROYER),
@@ -54,11 +62,14 @@ class Game:
         self._ai_moves.append((result, x, y))
 
     def __cool_ai_shoot(self):
-        x, y = self.__ai.calculate_shot(self._ai_moves)
+        x, y = self.__ai.calculate_shot(self._ai_moves, self.__ai_boats)
         while (anything, x, y) in self._ai_moves:
-            x, y = self.__ai.calculate_shot(self._ai_moves)
+            x, y = self.__ai.calculate_shot(self._ai_moves, self.__ai_boats)
         result = self._player_board.shoot(x, y)
+        self.n += 1
         self._ai_moves.append((result, x, y))
+        if type(result) == tuple and result[0] == ShotResult.SUNK:
+            self.__ai_boats.remove(Ship(result[1], 0, 0))
 
     def get_player_ships(self):
         while len(self._player_board.ships) != len(self.__ships):

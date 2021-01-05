@@ -15,7 +15,7 @@ class Board:
         for row in self._board:
             #msg += str(row) + "\n"
             for n in row:
-                msg += str(n) if n > 0 else '-'
+                msg += str(n) if n > -500 else '-'
                 msg += " "
             msg += "\n"
         msg = msg[:-1]
@@ -62,6 +62,5 @@ class Board:
         for s in self.ships:
             hit = s.check_hit(x, y)
             if hit != ShotResult.MISS:
-                print(hit)
                 return hit
         return ShotResult.MISS
