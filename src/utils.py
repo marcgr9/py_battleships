@@ -1,3 +1,14 @@
+# utils.py
+# marc, marc@gruita.ro
+
+class Anything:
+    def __eq__(self, other):
+        return True
+
+
+anything = Anything()
+
+
 class Coords:
     def __init__(self, x=-1, y=-1, pair=(-1, -1)):
         if pair is not (-1, -1):
@@ -15,3 +26,4 @@ class Coords:
     @property
     def y(self):
         return self.__y
+

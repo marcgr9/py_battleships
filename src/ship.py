@@ -2,9 +2,9 @@
 # marc, marc@gruita.ro
 
 from enum import Enum
-from typing import List, Tuple
+from typing import List
 
-from coords import Coords
+from src.utils import Coords, anything
 
 
 class Ship:
@@ -38,8 +38,22 @@ class Ship:
     def pieces(self):
         return self._pieces
 
+    @property
+    def sunk(self):
+        return self._sunk
+
     def add_piece(self, x, y):
         self._pieces.append([True, x, y])
+
+    def check_hit(self, x, y):
+        for p in self.pieces:
+            if p == [anything, x, y]:
+                p[0] = False
+                sunk = all(p[0] is False for p in self.pieces)
+                if sunk:
+                    self._sunk = True
+                return sunk if not sunk else self.type
+        return -1
 
 
 class ShipType(Enum):

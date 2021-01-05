@@ -2,8 +2,8 @@
 # marc, marc@gruita.ro
 
 from random import randint
-from board import Board
-from ship import Ship, ShipType
+from src.board import Board
+from src.ship import Ship, ShipType
 
 
 class Game:
@@ -12,12 +12,16 @@ class Game:
         self._ai_board = ai_board
         self._playing = False
         self._winner = None
-        self._moves = []
+        self._ai_moves = []
         self.__ships = [
             Ship(ShipType.BARCA),
             Ship(ShipType.SUBMARIN),
             Ship(ShipType.DESTROYER)
         ]
+
+    @property
+    def playing(self):
+        return self._playing and self._winner is None
 
     def start(self):
         self._place_ai_ships()
@@ -33,6 +37,16 @@ class Game:
             except Exception:
                 pass
 
+    def __ai_shoot(self):
+        x = randint(0, 9)
+        y = randint(0, 9)
+        while (x, y) in self._ai_moves:
+            x = randint(0, 9)
+            y = randint(0, 9)
+
+        self._ai_moves.append((x, y))
+        self._player_board.shoot(x, y)
+
     def get_player_ships(self):
         while len(self._player_board.ships) != len(self.__ships):
             yield self.__ships[len(self._player_board.ships) - len(self.__ships)]
@@ -41,4 +55,14 @@ class Game:
         self._player_board.place_ship(Ship(ship_type, orientation, x, y))
 
     def shoot(self, x, y):
-        return self._ai_board.shoot(x, y)
+        response = self._ai_board.shoot(x, y)
+        self.__ai_shoot()
+
+        return response if self.__check_game_won() is None else self.__check_game_won()
+
+    def __check_game_won(self):
+        if all(s.sunk for s in self._player_board.ships):
+            self._winner = "ai"
+        elif all(s.sunk for s in self._ai_board.ships):
+            self._winner = "player"
+        return self._winner

@@ -1,8 +1,7 @@
 # board.py
 # marc, marc@gruita.ro
 
-from ship import Ship
-from utils import anything
+from src.utils import anything
 
 
 class Board:
@@ -47,14 +46,22 @@ class Board:
                 (0 <= y <= self._size)):
             raise Exception
 
+        self.board[x][y] = 2
+        # for s in self.ships:
+        #     for p in s.pieces:
+        #         if p == [anything, x, y]:
+        #             p[0] = False
+        #             response = all(p[0] is False for p in s.pieces)
+        #             return response if not response else s.type
+        # return -1  #miss
+
         for s in self.ships:
-            for p in s.pieces:
-                if p == [anything, x, y]:
-                    p[0] = False
-                    self.board[x][y] = 2
-                    response = all(p[0] is False for p in s.pieces)
-                    return response if not response else s.type
-        return -1  #miss
+            hit = s.check_hit(x, y)
+            if hit != -1:
+                return hit
+        return -1
+
+
 
 
 
