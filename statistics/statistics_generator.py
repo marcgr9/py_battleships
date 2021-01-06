@@ -55,8 +55,8 @@ def one_way_play():
 
 
 def game_simulations():
-    file_str = "statistics/game/statistics.txt"
-    iterations = 10  # 4:30 min
+    file_str = "game/statistics.txt"
+    iterations = 1000  # 4:30 min / offset
     f = open(file_str, "a+")
     f.write(f"{datetime.now().strftime('%m/%d/%Y %H:%M:%S')}: Starting simulating {iterations} games for" +
             " each ai offset value.\n")
@@ -65,7 +65,13 @@ def game_simulations():
         score = 0
         print("starting for offset", ai_offset)
         for _ in range(iterations):
-            game = Game(10)
+            if _ == iterations/4:
+                print("1/4")
+            elif _ == iterations/2:
+                print("1/2")
+            elif _ == (3*iterations) / 4:
+                print("3/4")
+            game = Game(10, ai_offset)
             for ship in game.get_player_ships():
                 o = randint(0, 1)
                 x = randint(0, 9)
