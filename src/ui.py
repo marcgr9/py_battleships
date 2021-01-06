@@ -3,14 +3,12 @@
 from src.board import Board
 from src.game import Game
 from src.ship import ShipType
-from src.utils import ShotResult, Players
+from src.utils import ShotResult, Players, anything
 
 
 class UI:
     def __init__(self):
-        player_board = Board(10)
-        ai_board = Board(10)
-        self.__game = Game(player_board, ai_board)
+        self.__game = Game(10)
 
         self.__messages = {
             ShotResult.MISS: "Miss",
@@ -36,15 +34,14 @@ class UI:
             try:
                 x, y = input().split(" ")
                 response = self.__game.shoot(int(x), int(y))
+                self.print_board()
                 if type(response) == tuple:
                     if type(response[1]) == ShipType:
                         print(self.__messages[response[0]].format(var=response[1].name))
-                        self.print_board()
                     else:
                         print(self.__messages[response[0]].format(var=self.__players[response[1]]))
                 else:
                     print(self.__messages[response])
-                    self.print_board()
             except Exception:
                 print("Invalid move")
                 self.print_board()

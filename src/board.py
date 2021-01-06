@@ -1,7 +1,7 @@
 # board.py
 # marc, marc@gruita.ro
 
-from src.utils import ShotResult
+from src.utils import ShotResult, IllegalMove
 
 
 class Board:
@@ -33,7 +33,7 @@ class Board:
         return self._size
 
     def place_ship(self, ship):
-        self._check(ship)
+        self.check(ship)
         for i in range(ship.size):
             x, y = ship.coords.x - i*ship.orientation, ship.coords.y + i*(not ship.orientation)
             self._board[x][y] = 1
@@ -41,17 +41,20 @@ class Board:
 
         self._ships.append(ship)
 
-    def _check(self, ship):
+    def check(self, ship):
         for i in range(ship.size):
-            if self._board[ship.coords.x - i * ship.orientation][ship.coords.y + i * (not ship.orientation)] != 0 or \
-                (not 0 <= ship.coords.x - i * ship.orientation <= self._size) or \
-                    (not 0 <= ship.coords.y + i * (not ship.orientation) <= self._size):
-                raise Exception
+            if (not 0 <= ship.coords.x - i * ship.orientation < self._size) or \
+                (not 0 <= ship.coords.y + i * (not ship.orientation) < self._size) or \
+                    self._board[ship.coords.x - i * ship.orientation][ship.coords.y + i * (not ship.orientation)] != 0:
+                raise IllegalMove
 
     def shoot(self, x, y):
         if not ((0 <= x <= self._size) and
                 (0 <= y <= self._size)):
-            raise Exception
+            raise IllegalMove
+
+        if self._board[x][y] == 2:
+            return ShotResult.ALREADY_HIT
 
         self.board[x][y] = 2
         # for s in self.ships:
@@ -67,3 +70,6 @@ class Board:
             if hit != ShotResult.MISS:
                 return hit
         return ShotResult.MISS
+
+    def all_sunk(self):
+        return all(ship.sunk is True for ship in self._ships)

@@ -1,6 +1,7 @@
 # utils.py
 # marc, marc@gruita.ro
 from enum import Enum, unique
+import warnings
 
 
 class Anything:
@@ -38,3 +39,22 @@ class ShotResult(Enum):
 class Players(Enum):
     HUMAN = 0
     AI = 1
+
+
+class IllegalMove(Exception):
+    def __init__(self, msg=""):
+        super().__init__(msg)
+
+
+def deprecated(message):
+    def deprecated_decorator(func):
+        def deprecated_func(*args, **kwargs):
+            warnings.warn("{} is a deprecated function. {}".format(func.__name__, message),
+                          category=DeprecationWarning,
+                          stacklevel=2)
+            warnings.simplefilter('default', DeprecationWarning)
+            return func(*args, **kwargs)
+
+        return deprecated_func
+
+    return deprecated_decorator

@@ -10,10 +10,10 @@ from src.utils import ShotResult, Players, anything
 
 
 class Game:
-    def __init__(self, player_board: Board, ai_board: Board, ai_offset=42):
-        self._player_board = player_board
-        self._ai_board = ai_board
-        self._shots_board = Board(10)
+    def __init__(self, size, ai_offset=42):
+        self._player_board = Board(size)
+        self._ai_board = Board(size)
+        self._shots_board = Board(size)
         self._playing = False
         self._winner = None
         self._ai_moves = []
@@ -32,7 +32,7 @@ class Game:
             Ship(ShipType.SUBMARINE),
             Ship(ShipType.PATROL_BOAT)
         ]
-        self.__ai = AI(self._player_board.size, self.__ships, ai_offset)
+        self.__ai = AI(self._player_board.size, ai_offset)
 
     @property
     def playing(self):
@@ -72,8 +72,6 @@ class Game:
 
     def __cool_ai_shoot(self):
         x, y = self.__ai.calculate_shot(self._ai_moves, self.__ai_boats)
-        while (anything, x, y) in self._ai_moves:
-            x, y = self.__ai.calculate_shot(self._ai_moves, self.__ai_boats)
         result = self._player_board.shoot(x, y)
         self.n += 1
         self._ai_moves.append((result, x, y))
@@ -88,21 +86,23 @@ class Game:
         self._player_board.place_ship(Ship(ship_type, orientation, x, y))
 
     def shoot(self, x, y):
-        if self._shots_board.board[x][y] != 0:
-            self.__cool_ai_shoot()
-            return ShotResult.ALREADY_HIT
-
         response = self._ai_board.shoot(x, y)
         self.__fill_shots_board(x, y, response)
         self.__cool_ai_shoot()
+        game_won = self.__check_game_won()
 
-        return response if self.__check_game_won() is None else (ShotResult.WON, self.__check_game_won())
+        if game_won is not None:
+            self._playing = False
+            return ShotResult.WON, game_won
+
+        return response
 
     def __check_game_won(self):
-        if all(s.sunk for s in self._player_board.ships):
+        if self._player_board.all_sunk():
             self._winner = Players.AI
-        elif all(s.sunk for s in self._ai_board.ships):
+        if self._ai_board.all_sunk():
             self._winner = Players.HUMAN
+
         return self._winner
 
     def __fill_shots_board(self, x, y, response):

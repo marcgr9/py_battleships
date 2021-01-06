@@ -1,0 +1,56 @@
+marc gruita
+marc@gruita.ro
+
+01/06/2021 12:28:54: Starting simulating 10 games for each ai offset value.
+Offset 1 - 546 total shots over; avg 54.6
+Offset 2 - 579 total shots over; avg 57.9
+Offset 3 - 470 total shots over; avg 47.0
+Offset 4 - 519 total shots over; avg 51.9
+Offset 5 - 501 total shots over; avg 50.1
+Offset 6 - 475 total shots over; avg 47.5
+Offset 7 - 527 total shots over; avg 52.7
+Offset 8 - 510 total shots over; avg 51.0
+Offset 9 - 513 total shots over; avg 51.3
+Offset 10 - 518 total shots over; avg 51.8
+Offset 11 - 510 total shots over; avg 51.0
+Offset 12 - 522 total shots over; avg 52.2
+Offset 13 - 508 total shots over; avg 50.8
+Offset 14 - 538 total shots over; avg 53.8
+Offset 15 - 546 total shots over; avg 54.6
+Offset 16 - 552 total shots over; avg 55.2
+Offset 17 - 502 total shots over; avg 50.2
+Offset 18 - 498 total shots over; avg 49.8
+Offset 19 - 538 total shots over; avg 53.8
+Offset 20 - 476 total shots over; avg 47.6
+Offset 21 - 513 total shots over; avg 51.3
+Offset 22 - 542 total shots over; avg 54.2
+Offset 23 - 564 total shots over; avg 56.4
+Offset 24 - 502 total shots over; avg 50.2
+Offset 25 - 491 total shots over; avg 49.1
+Offset 26 - 530 total shots over; avg 53.0
+Offset 27 - 505 total shots over; avg 50.5
+Offset 28 - 523 total shots over; avg 52.3
+Offset 29 - 499 total shots over; avg 49.9
+Offset 30 - 525 total shots over; avg 52.5
+Offset 31 - 484 total shots over; avg 48.4
+Offset 32 - 532 total shots over; avg 53.2
+Offset 33 - 557 total shots over; avg 55.7
+Offset 34 - 570 total shots over; avg 57.0
+Offset 35 - 535 total shots over; avg 53.5
+Offset 36 - 497 total shots over; avg 49.7
+Offset 37 - 578 total shots over; avg 57.8
+Offset 38 - 539 total shots over; avg 53.9
+Offset 39 - 537 total shots over; avg 53.7
+Offset 40 - 526 total shots over; avg 52.6
+Offset 41 - 549 total shots over; avg 54.9
+Offset 42 - 486 total shots over; avg 48.6
+Offset 43 - 493 total shots over; avg 49.3
+Offset 44 - 559 total shots over; avg 55.9
+Offset 45 - 518 total shots over; avg 51.8
+Offset 46 - 499 total shots over; avg 49.9
+Offset 47 - 517 total shots over; avg 51.7
+Offset 48 - 529 total shots over; avg 52.9
+Offset 49 - 533 total shots over; avg 53.3
+Offset 50 - 535 total shots over; avg 53.5
+01/06/2021 12:31:02: Simulations done
+
