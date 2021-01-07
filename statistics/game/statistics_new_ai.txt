@@ -49,3 +49,78 @@ Offset 48 - 4683 total shots over; avg 46.83
 Offset 49 - 4470 total shots over; avg 44.7
 Offset 50 - 4426 total shots over; avg 44.26
 01/07/2021 11:09:26: Simulations done
+
+01/07/2021 12:02:59: Starting simulating 1000 games for each ai offset value.
+Offset 32 - 45489 total shots over; avg 45.489
+Offset 33 - 45101 total shots over; avg 45.101
+Offset 38 - 45439 total shots over; avg 45.439
+01/07/2021 12:13:25: Simulations done
+
+01/07/2021 13:44:53: Starting simulating 1000 games for each ai offset value.
+Offset 1 - 61056 total shots over; avg 61.056
+Offset 2 - 55506 total shots over; avg 55.506
+Offset 3 - 50395 total shots over; avg 50.395
+Offset 4 - 49011 total shots over; avg 49.011
+Offset 5 - 47183 total shots over; avg 47.183
+Offset 6 - 46690 total shots over; avg 46.69
+Offset 7 - 46259 total shots over; avg 46.259
+Offset 8 - 45902 total shots over; avg 45.902
+Offset 9 - 45390 total shots over; avg 45.39
+Offset 10 - 44977 total shots over; avg 44.977
+Offset 11 - 44751 total shots over; avg 44.751
+Offset 12 - 44982 total shots over; avg 44.982
+Offset 13 - 45072 total shots over; avg 45.072
+Offset 14 - 44533 total shots over; avg 44.533
+Offset 15 - 44817 total shots over; avg 44.817
+Offset 16 - 44713 total shots over; avg 44.713
+Offset 17 - 45000 total shots over; avg 45.0
+Offset 18 - 44786 total shots over; avg 44.786
+Offset 19 - 44574 total shots over; avg 44.574
+Offset 20 - 44764 total shots over; avg 44.764
+Offset 21 - 44938 total shots over; avg 44.938
+Offset 22 - 45266 total shots over; avg 45.266
+Offset 23 - 44551 total shots over; avg 44.551
+Offset 24 - 44471 total shots over; avg 44.471
+Offset 25 - 44829 total shots over; avg 44.829
+Offset 26 - 44666 total shots over; avg 44.666
+Offset 27 - 44912 total shots over; avg 44.912
+Offset 28 - 45118 total shots over; avg 45.118
+Offset 29 - 44873 total shots over; avg 44.873
+Offset 30 - 44727 total shots over; avg 44.727
+Offset 31 - 45244 total shots over; avg 45.244
+Offset 32 - 45053 total shots over; avg 45.053
+Offset 33 - 44907 total shots over; avg 44.907
+Offset 34 - 44773 total shots over; avg 44.773
+Offset 35 - 45451 total shots over; avg 45.451
+Offset 36 - 44703 total shots over; avg 44.703
+Offset 37 - 45040 total shots over; avg 45.04
+Offset 38 - 44310 total shots over; avg 44.31
+Offset 39 - 45326 total shots over; avg 45.326
+Offset 40 - 45209 total shots over; avg 45.209
+Offset 41 - 44770 total shots over; avg 44.77
+Offset 42 - 44744 total shots over; avg 44.744
+Offset 43 - 44527 total shots over; avg 44.527
+Offset 44 - 44745 total shots over; avg 44.745
+Offset 45 - 45527 total shots over; avg 45.527
+Offset 46 - 44506 total shots over; avg 44.506
+Offset 47 - 44776 total shots over; avg 44.776
+Offset 48 - 44377 total shots over; avg 44.377
+Offset 49 - 44487 total shots over; avg 44.487
+Offset 50 - 44735 total shots over; avg 44.735
+Offset 51 - 44943 total shots over; avg 44.943
+Offset 52 - 44314 total shots over; avg 44.314
+Offset 53 - 44560 total shots over; avg 44.56
+Offset 54 - 44945 total shots over; avg 44.945
+Offset 55 - 44495 total shots over; avg 44.495
+Offset 56 - 44321 total shots over; avg 44.321
+Offset 57 - 45266 total shots over; avg 45.266
+Offset 58 - 44255 total shots over; avg 44.255
+Offset 59 - 44841 total shots over; avg 44.841
+Offset 60 - 44771 total shots over; avg 44.771
+Offset 61 - 44960 total shots over; avg 44.96
+Offset 62 - 44932 total shots over; avg 44.932
+Offset 63 - 45085 total shots over; avg 45.085
+Offset 64 - 44775 total shots over; avg 44.775
+Offset 65 - 45028 total shots over; avg 45.028
+01/07/2021 17:51:42: Simulations done
+
