@@ -67,6 +67,12 @@ class Board:
 
         for s in self.ships:
             hit = s.check_hit(x, y)
+            try:
+                if hit[0] == ShotResult.SUNK:
+                    for piece in s.pieces:
+                        self.board[piece[1]][piece[2]] = 3
+            except Exception:
+                pass
             if hit != ShotResult.MISS:
                 return hit
         return ShotResult.MISS

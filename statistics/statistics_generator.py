@@ -55,8 +55,8 @@ def one_way_play():
 
 
 def game_simulations():
-    file_str = "game/statistics.txt"
-    iterations = 1000  # 4:30 min / offset
+    file_str = "game/statistics_new_ai.txt"
+    iterations = 100  # 4:30 min / offset
     f = open(file_str, "a+")
     f.write(f"{datetime.now().strftime('%m/%d/%Y %H:%M:%S')}: Starting simulating {iterations} games for" +
             " each ai offset value.\n")
