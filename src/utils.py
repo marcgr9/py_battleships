@@ -1,7 +1,9 @@
 # utils.py
 # marc, marc@gruita.ro
-from enum import Enum, unique
+from enum import unique
 import warnings
+
+from aenum import Enum, NoAlias
 
 
 class Anything:
@@ -24,6 +26,20 @@ class Coords:
     @property
     def y(self):
         return self.__y
+
+
+class ShipType(Enum):
+    _settings_ = NoAlias
+
+    CARRIER = 5
+    BATTLESHIP = 4
+    DESTROYER = 3
+    SUBMARINE = 3
+    PATROL_BOAT = 2
+
+    @property
+    def size(self):
+        return self.value
 
 
 @unique

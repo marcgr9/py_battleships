@@ -8,12 +8,42 @@ from src.utils import ShotResult, anything, IllegalMove
 
 
 class AI:
-    def __init__(self, board_size, offset):
+    """
+    AI module that covers everything related to the BattleShip AI
+    """
+    def __init__(self, board_size: int, offset: int):
+        """
+        :param board_size: size of the board
+        :param offset: value used to compute shots
+        """
         self.__size = board_size
         self.offset = offset
         self.__moves = []
 
     def calculate_shot(self, player_ships):
+        """
+        Computes the most likely spot that contains a ship
+        :param player_ships: list of remaining ships
+        :return: (int, int)
+
+        pseudocode:
+        for every shot until now:
+            spot = (x, y) of shot
+            result = hit/miss/sunk
+
+            mark spot as inaccessible
+            if result was a hit:
+                if spot is not part of a sunken ship:
+                    for every neighbour of spot:
+                        if neighbour was a hit:
+                            increase the probability for the opposite neighbour
+                        increase the probability for the neighbour
+
+        for every ship placement possible using unsunken ships:
+            increase by 1 the probability for every spot of the ship
+
+        return (x, y) of the spot with the highest probability
+        """
         board = Board(self.__size)
         prob_board = Board(self.__size)
 
@@ -27,7 +57,7 @@ class AI:
                     continue
 
                 for (i, j) in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
-                    try:
+                    try:  # easier to ask for forgiveness that permission :d
                         if (ShotResult.HIT, x - i, y - j) in self.__moves:
                             prob_board.board[x + i][y + j] += self.offset
                         prob_board.board[x + i][y + j] += self.offset
@@ -57,6 +87,10 @@ class AI:
         return final_x, final_y
 
     def add_move(self, move: tuple):
+        """
+        Adds given move to the list of past moves
+        :param move:
+        """
         self.__moves.append(move)
 
 """
