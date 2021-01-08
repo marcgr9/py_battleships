@@ -51,7 +51,7 @@ class TestBattleship(TestCase):
         for ship in game._ai_board.ships:
             ship._sunk = True
 
-        game._Game__check_game_won()
+        game._Game__get_winner()
         self.assertEqual(game._winner, Players.HUMAN)
 
         game._Game__ai_shoot()
