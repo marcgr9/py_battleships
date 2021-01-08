@@ -64,10 +64,10 @@ class Game:
         self._ai_moves.append((result, x, y))
 
     def __cool_ai_shoot(self):
-        x, y = self.__ai.calculate_shot(self._ai_moves, self._player_board.ships)
+        x, y = self.__ai.calculate_shot(self._player_board.ships)
         result = self._player_board.shoot(x, y)
         self.n += 1
-        self._ai_moves.append((result, x, y))
+        self.__ai.add_move((result, x, y))
 
     def get_player_ships(self):
         while len(self._player_board.ships) != len(self.__ships):

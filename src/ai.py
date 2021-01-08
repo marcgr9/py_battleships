@@ -11,12 +11,13 @@ class AI:
     def __init__(self, board_size, offset):
         self.__size = board_size
         self.offset = offset
+        self.__moves = []
 
-    def calculate_shot(self, moves, player_ships):
+    def calculate_shot(self, player_ships):
         board = Board(self.__size)
         prob_board = Board(self.__size)
 
-        for move in moves:
+        for move in self.__moves:
             x, y = move[1], move[2]
             board.shoot(x, y)
             prob_board.board[x][y] = -1000
@@ -27,7 +28,7 @@ class AI:
 
                 for (i, j) in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
                     try:
-                        if (ShotResult.HIT, x - i, y - j) in moves:
+                        if (ShotResult.HIT, x - i, y - j) in self.__moves:
                             prob_board.board[x + i][y + j] += self.offset
                         prob_board.board[x + i][y + j] += self.offset
                     except IndexError:
@@ -55,6 +56,8 @@ class AI:
                     max_prob = prob_board.board[i][j]
         return final_x, final_y
 
+    def add_move(self, move: tuple):
+        self.__moves.append(move)
 
 """
 adauga offset pt vecini numa daca piesa curenta nu ii dintr-o barca scufundata
