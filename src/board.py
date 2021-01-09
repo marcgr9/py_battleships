@@ -8,6 +8,13 @@ class Board:
     """
     Stores individual battleship boards
     """
+    nums_to_chars = {
+        3: '~',
+        2: 'x',
+        1: '+',
+        0: 'o'
+    }
+
     def __init__(self, size: int):
         """
         :param size: size of board
@@ -20,7 +27,7 @@ class Board:
         msg = ""
         for row in self._board:
             for n in row:
-                msg += str(n) if n > -500 else '-'
+                msg += self.nums_to_chars[n] if n > -500 else '-'
                 msg += " "
             msg += "\n"
         msg = msg[:-1]

@@ -59,9 +59,9 @@ class UI:
                 print("Can't place a ship here")
 
     def print_board(self):
-        print("Your board:" + " " * 29 + "Your shots board:")
+        print("Your board:" + " " * 19 + "Your shots board:")
         for i in range(self.__game.player_board.size):
-            print(str(self.__game.player_board.board[i]) + " " * 10 + str(self.__game.shots_board.board[i]))
+            print(str(self.__game.player_board).splitlines()[i] + " " * 10 + str(self.__game.shots_board).splitlines()[i])
 
         print("\n")
 
