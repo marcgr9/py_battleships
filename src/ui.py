@@ -2,10 +2,11 @@
 # marc, marc@gruita.ro
 from src.game import Game
 from src.ship import ShipType
+from src.ui_abc import UI
 from src.utils import ShotResult, Players, anything, IllegalMove
 
 
-class ConsoleUI:
+class ConsoleUI(UI):
     def __init__(self):
         self.__game = Game(10)
 
@@ -17,17 +18,11 @@ class ConsoleUI:
             ShotResult.ALREADY_HIT: "Area already hit"
         }
 
-        self.__players = {
-            Players.AI: "AI",
-            Players.HUMAN: "You"
-        }
-
     def play(self):
         self.place_ships()
         print("\n" * 50)
         print("Battlefields ready!")
         self.__game.start()
-
         while self.__game.playing:
             print("Pick your shot! ('x y'):")
             try:
@@ -36,9 +31,13 @@ class ConsoleUI:
                 self.print_board()
                 if type(response) == tuple:
                     if type(response[1]) == ShipType:
-                        print(self.__messages[response[0]].format(var=response[1].name))
+                        print(self.__messages[response[0]].format(
+                            var=self.ship_names[response[1]])
+                        )
                     else:
-                        print(self.__messages[response[0]].format(var=self.__players[response[1]]))
+                        print(self.__messages[response[0]].format(
+                            var=self.players[response[1]])
+                        )
                 else:
                     print(self.__messages[response])
             except (IllegalMove, ValueError):

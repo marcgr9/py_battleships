@@ -1,5 +1,6 @@
 # utils.py
 # marc, marc@gruita.ro
+from abc import abstractmethod, ABC
 from enum import unique
 import warnings
 

@@ -4,10 +4,11 @@ from random import uniform
 import pygame
 
 from src.game import Game
+from src.ui_abc import UI
 from src.utils import ShotResult, Players, IllegalMove, ShipType
 
 
-class GUI:
+class GUI(UI):
     """
     A lot of messy indexes & values but hey, it's a ui based on coordinates
     """
@@ -37,20 +38,6 @@ class GUI:
         1: colors['HIT'],
         2: colors['SUNK'],
         3: colors['MISS']
-    }
-
-    ship_names = {
-        ShipType.CARRIER: "Aircraft Carrier",
-        ShipType.BATTLESHIP: "Battleship",
-        ShipType.DESTROYER: "Destroyer",
-        ShipType.SUBMARINE: "Submarine",
-        ShipType.PATROL_BOAT: "Patrol Boat"
-    }
-
-    shot_responses = {
-        ShotResult.MISS: "Miss",
-        ShotResult.HIT: "Hit",
-        ShotResult.ALREADY_HIT: "Area already hit"
     }
 
     def __init__(self):
