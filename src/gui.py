@@ -1,15 +1,15 @@
 # gui.py
 # marc, marc@gruita.ro
+from random import uniform
 import pygame
 
 from src.game import Game
-from src.utils import ShotResult, Players, IllegalMove
+from src.utils import ShotResult, Players, IllegalMove, ShipType
 
 
 class GUI:
     """
-    spaghetti code
-    It's a mess right now but I'll fix it
+    A lot of messy indexes & values but hey, it's a ui based on coordinates
     """
 
     tile_size = 50
@@ -39,10 +39,28 @@ class GUI:
         3: colors['MISS']
     }
 
+    ship_names = {
+        ShipType.CARRIER: "Aircraft Carrier",
+        ShipType.BATTLESHIP: "Battleship",
+        ShipType.DESTROYER: "Destroyer",
+        ShipType.SUBMARINE: "Submarine",
+        ShipType.PATROL_BOAT: "Patrol Boat"
+    }
+
+    shot_responses = {
+        ShotResult.MISS: "Miss",
+        ShotResult.HIT: "Hit",
+        ShotResult.ALREADY_HIT: "Area already hit"
+    }
+
     def __init__(self):
         self.__game = Game(10)
         self.__board_size = self.__game.player_board.size
+
         pygame.init()
+        pygame.display.set_caption("Battleships")
+        logo = pygame.image.load("res/imgs/logo.png")
+        pygame.display.set_icon(logo)
 
         self.__screen_width = self.__board_size * self.tile_size + 1
         self.__screen_height = self.__board_size * self.tile_size + 1
@@ -51,7 +69,16 @@ class GUI:
              self.__screen_height + self.bottom_margin))
 
         self._text_area = None
-        pygame.display.set_caption("Battleships")
+
+        self.__explosion = [
+            pygame.image.load("res/imgs/output-onlinepngtools-3.png"),
+            pygame.image.load("res/imgs/output-onlinepngtools-4.png"),
+            pygame.image.load("res/imgs/output-onlinepngtools-5.png"),
+            pygame.image.load("res/imgs/output-onlinepngtools-6.png"),
+            pygame.image.load("res/imgs/output-onlinepngtools-7.png"),
+            pygame.image.load("res/imgs/output-onlinepngtools-8.png"),
+            pygame.image.load("res/imgs/output-onlinepngtools-9.png"),
+            pygame.image.load("res/imgs/output-onlinepngtools-10.png")]
 
     def play(self):
         ended = False
@@ -88,7 +115,7 @@ class GUI:
                         pygame.display.update()
 
                 self.__draw_boards()
-                self.__display_text(self.__game._winner)
+                self.__display_text(self.__game.winner)
                 self.__screen.blit(self._text_area[0], self._text_area[1])
                 pygame.display.update()
                 ended = True
@@ -106,14 +133,14 @@ class GUI:
         mousex, mousey = 0, 0
         for ship in self.__game.get_player_ships():
             self.draw_board()
-            self.__display_text("Place " + ship.type.name, full=False)
+            self.__display_text("Place " + self.ship_names[ship.type], full=False)
 
             if self._text_area:
                 self.__screen.blit(self._text_area[0], self._text_area[1])
             if self.__check_mouse(mousex, mousey):
                 x, y = mousex // self.tile_size * self.tile_size, mousey // self.tile_size * self.tile_size
 
-                if o == 1:  # vertical ship
+                if o == 1:  # vertical ship, must compute the area (ship.size) squares above
                     pygame.draw.rect(self.__screen,
                                      color=(50, 70, 90),
                                      rect=[x, y - self.tile_size * (ship.size - 1),
@@ -133,7 +160,8 @@ class GUI:
 
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     try:
-                        self.__game.place_ship(ship.type, o, y // self.tile_size, x // self.tile_size)
+                        if self.__check_mouse(mousex, mousey):
+                            self.__game.place_ship(ship.type, o, y // self.tile_size, x // self.tile_size)
                     except IllegalMove:
                         self.__display_text("Can't place a ship here", full=False)
 
@@ -159,18 +187,18 @@ class GUI:
             for j in range(self.__board_size):
                 col = self.shots_board_colors[self.__game.shots_board.board[j][i]]
                 pygame.draw.rect(self.__screen,
-                                 rect=[(self.tile_size * i + 1) + self.tile_size * self.__board_size + 20,
+                                 rect=[(self.tile_size * i + 1) + self.__screen_width + self.separation_width,
                                        self.tile_size * j + 1,
                                        self.tile_size - 1, self.tile_size - 1],
                                  color=col)
 
     def __draw_selected_area_border(self, mousex, mousey):
-        x, y = (mousex - 20) // self.tile_size * self.tile_size, \
+        x, y = (mousex - self.separation_width) // self.tile_size * self.tile_size, \
                mousey // self.tile_size * self.tile_size
 
         pygame.draw.rect(self.__screen,
                          color=(200, 150, 100),
-                         rect=[x + 20, y, self.tile_size + 1, self.tile_size + 1],
+                         rect=[x + self.separation_width, y, self.tile_size + 1, self.tile_size + 1],
                          width=4)
 
     def __shoot(self, mousex, mousey):
@@ -181,21 +209,33 @@ class GUI:
 
         if response != ShotResult.ALREADY_HIT:
             for part_filled in range(0, self.tile_size, 6):
-                if part_filled > 0:
-                    pygame.draw.rect(self.__screen,
-                                     color=self.shots_board_colors[self.__game.shots_board.board[x//self.tile_size][y//self.tile_size]],
-                                     rect=(y + self.__screen_width + 20, x, part_filled, part_filled))
-                    pygame.display.update()
-                    pygame.time.Clock().tick(30)
+                pygame.draw.rect(self.__screen,
+                                 color=self.shots_board_colors[
+                                     self.__game.shots_board.board[x//self.tile_size][y//self.tile_size]
+                                 ],
+                                 rect=(y + self.__screen_width + self.separation_width, x, part_filled, part_filled))
+
+                try:  # easier to ask for forgiveness than permission
+                    if response[0] == ShotResult.SUNK or response == (ShotResult.WON, Players.HUMAN):
+                        image = self.__explosion[part_filled//6]
+                        offset = uniform(0.8, 1.7)
+                        image = pygame.transform.scale(image,
+                                                       (int(self.tile_size * offset), int(self.tile_size * offset)))
+                        self.__screen.blit(image, (y + self.__screen_width + 20, x))
+                except (IndexError, TypeError):
+                    pass
+
+                pygame.display.flip()
+                pygame.time.Clock().tick(30)
 
         self.__display_text(response)
 
     def __display_text(self, response, full=True):
         text = ""
         if type(response) == tuple and response[0] == ShotResult.SUNK:
-            text = "Sunk " + response[1].name
+            text = "Sunk " + self.ship_names[response[1]]
         elif type(response) == ShotResult:
-            text = response.name
+            text = self.shot_responses[response]
         elif type(response) == Players:
             text = response.name + " won! Press any key to start a new game"
         elif type(response) == str:
@@ -212,4 +252,10 @@ class GUI:
         self._text_area = text_object, text_rect
 
     def __check_mouse(self, mousex, mousey, shooting=False):
-        return (True if not shooting else mousex >= self.__screen_width + 20) and mousey <= self.__screen_height
+        if shooting:
+            return self.__screen_width + self.separation_width <= mousex < \
+                        2 * self.__screen_width + self.separation_width - 1 and \
+                        0 <= mousey < self.__screen_height - 1
+        else:
+            return 0 <= mousex < self.__screen_width - 1 and \
+                    0 <= mousey < self.__screen_height - 1
