@@ -68,7 +68,17 @@ class GUI(UI):
             pygame.image.load("res/imgs/output-onlinepngtools-10.png")]
 
     def play(self):
+        started = False
         while True:
+            while not started:
+                self.__show_help_screen(start=True)
+
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        quit()
+                    elif event.type == pygame.KEYDOWN:
+                        started = True
+
             if not self.__game.winner:
                 self.place_ships()
                 self.__game.start()
@@ -196,13 +206,13 @@ class GUI(UI):
             for part_filled in range(0, self.tile_size, 6):
                 pygame.draw.rect(self.__screen,
                                  color=self.shots_board_colors[
-                                     self.__game.shots_board.board[x//self.tile_size][y//self.tile_size]
+                                     self.__game.shots_board.board[x // self.tile_size][y // self.tile_size]
                                  ],
                                  rect=(y + self.__screen_width + self.separation_width, x, part_filled, part_filled))
 
                 try:  # easier to ask for forgiveness than permission
                     if response[0] == ShotResult.SUNK or response == (ShotResult.WON, Players.HUMAN):
-                        image = self.__explosion[part_filled//6]
+                        image = self.__explosion[part_filled // 6]
                         offset = uniform(0.8, 1.7)
                         image = pygame.transform.scale(image,
                                                        (int(self.tile_size * offset), int(self.tile_size * offset)))
@@ -239,8 +249,99 @@ class GUI(UI):
     def __check_mouse(self, mousex, mousey, shooting=False):
         if shooting:
             return self.__screen_width + self.separation_width <= mousex < \
-                        2 * self.__screen_width + self.separation_width - 1 and \
-                        0 <= mousey < self.__screen_height - 1
+                   2 * self.__screen_width + self.separation_width - 1 and \
+                   0 <= mousey < self.__screen_height - 1
         else:
             return 0 <= mousex < self.__screen_width - 1 and \
-                    0 <= mousey < self.__screen_height - 1
+                   0 <= mousey < self.__screen_height - 1
+
+    def __show_help_screen(self, start=False):
+        self.__screen.fill(self.colors['BACKGROUND'])
+
+        text_object = pygame.font.Font('freesansbold.ttf', 50).render("Battleships", True, (255, 200, 130))
+        text_rect = text_object.get_rect()
+        text_rect.center = (self.__screen_width // 2, self.bottom_margin)
+        self.__screen.blit(text_object, text_rect)
+
+        text_object = pygame.font.Font('freesansbold.ttf', 15).render("by marc", True, self.colors['HIT'])
+        text_rect = text_object.get_rect()
+        text_rect.center = (self.__screen_width // 2 + self.__screen_width // 4, self.bottom_margin * 1.7)
+        self.__screen.blit(text_object, text_rect)
+
+        text_object = pygame.font.Font('freesansbold.ttf', 30).render("Placing ships", True,
+                                                                      self.colors['WATER'])
+        text_rect = text_object.get_rect()
+        text_rect.bottomleft = (self.separation_width, int(self.bottom_margin * 3))
+        self.__screen.blit(text_object, text_rect)
+
+        self.draw_text(font=pygame.font.Font('freesansbold.ttf', 20),
+                       color=self.colors['SHIP'],
+                       text="Hover the mouse over the desired ship location. " +
+                            "Place it by clicking the mouse and rotate it with the UP and RIGHT arrows",
+                       rect=(
+                           self.separation_width, self.bottom_margin * 3.5, self.__screen_width - self.separation_width,
+                           80))
+
+        text_object = pygame.font.Font('freesansbold.ttf', 30).render("Playing the game", True,
+                                                                      self.colors['WATER'])
+        text_rect = text_object.get_rect()
+        text_rect.bottomleft = (self.separation_width, int(self.bottom_margin * 6))
+        self.__screen.blit(text_object, text_rect)
+
+        self.draw_text(font=pygame.font.Font('freesansbold.ttf', 20),
+                       color=self.colors['SHIP'],
+                       text="The left board represents your board, where the AI will take shots. " +
+                            "The right board is the board where you take the shots. " +
+                            "You take shots by clicking on a square",
+                       rect=(
+                           self.separation_width, self.bottom_margin * 6.5, self.__screen_width - self.separation_width,
+                           100))
+
+        text = "start" if start else "resume"
+        text_object = pygame.font.Font('freesansbold.ttf', 30).render(f"Press any key to {text}", True,
+                                                                      self.colors['WATER'])
+        text_rect = text_object.get_rect()
+        text_rect.center = (self.__screen_width // 2, self.__screen_height - self.bottom_margin // 2)
+        self.__screen.blit(text_object, text_rect)
+        pygame.display.flip()
+
+    def draw_text(self, text, color, rect, font, aa=False, bkg=None):
+        """
+        from https://www.pygame.org/wiki/TextWrap
+        """
+        rect = pygame.Rect(rect)
+        y = rect.top
+        lineSpacing = -2
+
+        # get the height of the font
+        fontHeight = font.size("Tg")[1]
+
+        while text:
+            i = 1
+
+            # determine if the row of text will be outside our area
+            if y + fontHeight > rect.bottom:
+                break
+
+            # determine maximum width of line
+            while font.size(text[:i])[0] < rect.width and i < len(text):
+                i += 1
+
+            # if we've wrapped the text, then adjust the wrap to the last word
+            if i < len(text):
+                i = text.rfind(" ", 0, i) + 1
+
+            # render the line and blit it to the surface
+            if bkg:
+                image = font.render(text[:i], 1, color, bkg)
+                image.set_colorkey(bkg)
+            else:
+                image = font.render(text[:i], aa, color)
+
+            self.__screen.blit(image, (rect.left, y))
+            y += fontHeight + lineSpacing
+
+            # remove the text we just blitted
+            text = text[i:]
+
+        return text
