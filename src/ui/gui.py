@@ -68,9 +68,8 @@ class GUI(UI):
             pygame.image.load("res/imgs/output-onlinepngtools-10.png")]
 
     def play(self):
-        ended = False
         while True:
-            if not ended:
+            if not self.__game.winner:
                 self.place_ships()
                 self.__game.start()
                 # print(self.__game._ai_board)
@@ -105,13 +104,12 @@ class GUI(UI):
                 self.__display_text(self.__game.winner)
                 self.__screen.blit(self._text_area[0], self._text_area[1])
                 pygame.display.update()
-                ended = True
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     quit()
                 if event.type == pygame.KEYDOWN:
-                    if ended:
+                    if self.__game.winner:
                         self.__init__()
                         self.play()
 
@@ -143,7 +141,7 @@ class GUI(UI):
                 if event.type == pygame.MOUSEMOTION:
                     mousex, mousey = event.pos
                 elif event.type == pygame.KEYDOWN:
-                    o = event.key == pygame.K_UP
+                    o = event.key == pygame.K_UP if event.key in [pygame.K_UP, pygame.K_RIGHT] else o
 
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     try:
@@ -224,7 +222,7 @@ class GUI(UI):
         elif type(response) == ShotResult:
             text = self.shot_responses[response]
         elif type(response) == Players:
-            text = response.name + " won! Press any key to start a new game"
+            text = self.players[response] + " won! Press any key to start a new game"
         elif type(response) == str:
             text = response
         elif response is None:

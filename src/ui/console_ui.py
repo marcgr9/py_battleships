@@ -10,14 +10,6 @@ class ConsoleUI(UI):
     def __init__(self):
         self.__game = Game(10)
 
-        self.__messages = {
-            ShotResult.MISS: "Miss",
-            ShotResult.HIT: "Hit",
-            ShotResult.SUNK: "Sunk {var}",
-            ShotResult.WON: "{var} won!",
-            ShotResult.ALREADY_HIT: "Area already hit"
-        }
-
     def play(self):
         self.place_ships()
         print("\n" * 50)
@@ -29,25 +21,22 @@ class ConsoleUI(UI):
                 x, y = input().split(" ")
                 response = self.__game.shoot(int(y), int(x))
                 self.print_board()
-                if type(response) == tuple:
-                    if type(response[1]) == ShipType:
-                        print(self.__messages[response[0]].format(
-                            var=self.ship_names[response[1]])
-                        )
-                    else:
-                        print(self.__messages[response[0]].format(
-                            var=self.players[response[1]])
-                        )
-                else:
-                    print(self.__messages[response])
-            except (IllegalMove, ValueError):
+
+                if type(response) == ShotResult:
+                    print(self.shot_responses[response])
+                elif type(response) == tuple:
+                    if response[0] == ShotResult.SUNK:
+                        print("Sunk " + self.ship_names[response[1]])
+                    elif response[0] == ShotResult.WON:
+                        print(self.players[response[1]] + " won!")
+            except (IllegalMove, ValueError, IndexError):
                 self.print_board()
                 print("Invalid move")
 
     def place_ships(self):
         for ship in self.__game.get_player_ships():
             self.print_board()
-            print(f"Place the {ship.type.name} having length {str(ship.size)}")
+            print(f"Place the {self.ship_names[ship.type]} having length {str(ship.size)}")
 
             o, x, y = None, None, None
             while o not in [0, 1]:
