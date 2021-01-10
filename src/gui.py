@@ -1,14 +1,18 @@
 # gui.py
 # marc, marc@gruita.ro
+from time import sleep
+
 import pygame
 
 from src.game import Game
+from src.utils import ShotResult, Players, IllegalMove
 
 
 class GUI:
 
     tile_size = 50
     separation_width = 20
+    bottom_margin = 50
 
     colors = {
         'BACKGROUND': (71, 71, 71),
@@ -41,49 +45,74 @@ class GUI:
         self.__screen_width = self.__board_size * self.tile_size + 1
         self.__screen_height = self.__board_size * self.tile_size + 1
         self.__screen = pygame.display.set_mode(
-            (self.__screen_width, self.__screen_height))
+            (self.__screen_width, self.__screen_height + self.bottom_margin))
+
+        self._response_text = None
         pygame.display.set_caption("Battleships")
 
     def play(self):
+        ended = False
         while True:
-            self.place_ships()
-            self.__game.start()
-            self.__screen = pygame.display.set_mode(
-                (self.__screen_width * 2 + self.separation_width, self.__screen_height))
+            if not ended:
+                self.place_ships()
+                self.__game.start()
+                # print(self.__game._ai_board)
+                self.__screen = pygame.display.set_mode(
+                    (self.__screen_width * 2 + self.separation_width, self.__screen_height + self.bottom_margin))
 
-            while self.__game.playing:
+                self.__display_text(None)
+
+                while self.__game.playing:
+                    self.__draw_boards()
+                    if self._response_text:
+                        self.__screen.blit(self._response_text[0], self._response_text[1])
+
+                    for event in pygame.event.get():
+                        if event.type == pygame.MOUSEMOTION:
+                            mousex, mousey = event.pos
+                            if self.__check_mouse(mousex, mousey, shooting=True):
+                                self.__draw_selected_area_border(mousex, mousey)
+
+                        elif event.type == pygame.MOUSEBUTTONDOWN:
+                            if self.__check_mouse(mousex, mousey, shooting=True):
+                                self.__shoot(mousex, mousey)
+
+                        if event.type == pygame.QUIT:
+                            quit()
+
+                        pygame.display.update()
+
                 self.__draw_boards()
-                for event in pygame.event.get():
-                    if event.type == pygame.MOUSEMOTION:
-                        mousex, mousey = event.pos
-                        if mousex >= self.__screen_width + 20:
-                            self.__draw_selected_area_border(mousex, mousey)
-
-                    elif event.type == pygame.MOUSEBUTTONDOWN:
-                        if mousex >= self.__screen_width + 20:
-                            self.__shoot(mousex, mousey)
-
-                    if event.type == pygame.QUIT:
-                        quit()
-
-                    pygame.display.update()
+                self.__display_text(self.__game._winner)
+                self.__screen.blit(self._response_text[0], self._response_text[1])
+                pygame.display.update()
+                ended = True
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     quit()
+                if event.type == pygame.KEYDOWN:
+                    if ended:
+                        self.__init__()
+                        self.play()
 
     def place_ships(self):
         x, y, o = 0, 0, 1
         mousex, mousey = 0, 0
         for ship in self.__game.get_player_ships():
             self.draw_board()
-            if o == 1:
-                x, y = mousex // self.tile_size * self.tile_size, mousey // self.tile_size * self.tile_size
-                pygame.draw.rect(self.__screen, color=(50, 70, 90),
-                                 rect=[x, y - self.tile_size * (ship.size - 1), self.tile_size + 1, ship.size * self.tile_size + 1])
-            else:
-                x, y = mousex // self.tile_size * self.tile_size, mousey // self.tile_size * self.tile_size
-                pygame.draw.rect(self.__screen, color=(50, 70, 90), rect=[x, y, ship.size * self.tile_size + 1, self.tile_size + 1])
+            self.__display_text("Place " + ship.type.name, full=False)
+
+            if self._response_text:
+                self.__screen.blit(self._response_text[0], self._response_text[1])
+            if self.__check_mouse(mousex, mousey):
+                if o == 1:
+                    x, y = mousex // self.tile_size * self.tile_size, mousey // self.tile_size * self.tile_size
+                    pygame.draw.rect(self.__screen, color=(50, 70, 90),
+                                     rect=[x, y - self.tile_size * (ship.size - 1), self.tile_size + 1, ship.size * self.tile_size + 1])
+                else:
+                    x, y = mousex // self.tile_size * self.tile_size, mousey // self.tile_size * self.tile_size
+                    pygame.draw.rect(self.__screen, color=(50, 70, 90), rect=[x, y, ship.size * self.tile_size + 1, self.tile_size + 1])
 
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEMOTION:
@@ -92,7 +121,10 @@ class GUI:
                     o = event.key == pygame.K_UP
 
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    self.__game.place_ship(ship.type, o, y // self.tile_size, x // self.tile_size)
+                    try:
+                        self.__game.place_ship(ship.type, o, y // self.tile_size, x // self.tile_size)
+                    except IllegalMove:
+                        self.__display_text("Can't place a ship here", full=False)
 
                 if event.type == pygame.QUIT:
                     quit()
@@ -125,7 +157,40 @@ class GUI:
     def __shoot(self, mousex, mousey):
         x, y = mousey // self.tile_size * self.tile_size, (
                 mousex - self.__screen_width - 20) // self.tile_size * self.tile_size
-        self.__game.shoot(x // self.tile_size, y // self.tile_size)
+        response = self.__game.shoot(x // self.tile_size, y // self.tile_size)
+
+        for coverage in range(0, self.tile_size, 6):
+            if coverage > 0:
+                pygame.draw.rect(self.__screen, color=self.shots_board_colors[self.__game.shots_board.board[x//self.tile_size][y//self.tile_size]], rect=(y + self.__screen_width + 20, x, coverage,
+                                                          coverage))
+                pygame.display.update()
+                pygame.time.Clock().tick(30)
+        self.__display_text(response)
+
+    def __display_text(self, response, full=True):
+        text = ""
+        if type(response) == tuple:
+            if response[0] == ShotResult.SUNK:
+                text = "Sunk " + response[1].name
+        elif type(response) == ShotResult:
+            text = response.name
+        elif type(response) == Players:
+            text = response.name + " won! Press any key to start a new game"
+        elif type(response) == str:
+            text = response
+        elif response is None:
+            self._response_text = None
+            return
+
+        text_object = pygame.font.Font('freesansbold.ttf', 20).render(text, True, (255, 200, 130))
+        text_rect = text_object.get_rect()
+        width = self.__screen_width // 2 if not full else self.__screen_width + self.separation_width // 2
+        text_rect.center = (width, self.__screen_height + self.bottom_margin // 2)
+
+        self._response_text = text_object, text_rect
+
+    def __check_mouse(self, mousex, mousey, shooting=False):
+        return (True if not shooting else mousex >= self.__screen_width + 20) and mousey <= self.__screen_height
 
 
 ui = GUI()
