@@ -86,7 +86,7 @@ class Board:
                 (0 <= y <= self._size)):
             raise IllegalMove
 
-        if self._board[x][y] == 2:
+        if self._board[x][y] not in [0, 1]:  # water or ship
             return ShotResult.ALREADY_HIT
 
         self.board[x][y] = 2

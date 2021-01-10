@@ -168,5 +168,5 @@ class Game:
             self._shots_board.board[x][y] = 2
         elif response == ShotResult.HIT:
             self._shots_board.board[x][y] = 1
-        else:
+        elif response != ShotResult.ALREADY_HIT:
             self._shots_board.board[x][y] = 3
