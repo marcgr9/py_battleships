@@ -1,7 +1,7 @@
 # board.py
 # marc, marc@gruita.ro
 from src.ship import Ship
-from src.utils import ShotResult, IllegalMove
+from src.utils.utils import ShotResult, IllegalMove
 
 
 class Board:

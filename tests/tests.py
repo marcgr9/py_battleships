@@ -6,7 +6,7 @@ from unittest import TestCase
 from src.board import Board
 from src.game import Game
 from src.ship import Ship, ShipType
-from src.utils import Players, IllegalMove, ShotResult
+from src.utils.utils import Players, IllegalMove, ShotResult
 
 
 class TestBattleship(TestCase):

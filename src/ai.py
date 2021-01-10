@@ -4,7 +4,7 @@ from time import sleep
 
 from src.board import Board
 from src.ship import Ship
-from src.utils import ShotResult, anything, IllegalMove
+from src.utils.utils import ShotResult, anything, IllegalMove
 
 
 class AI:

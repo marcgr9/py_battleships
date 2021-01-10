@@ -4,8 +4,8 @@ from random import randint
 
 from src.ai import AI
 from src.board import Board
-from src.ship import Ship, ShipType
-from src.utils import ShotResult, Players, anything
+from src.ship import Ship
+from src.utils.utils import ShotResult, Players, anything, ShipType
 
 
 class Game:

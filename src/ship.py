@@ -3,7 +3,7 @@
 from aenum import Enum, NoAlias
 from typing import List
 
-from src.utils import Coords, anything, ShotResult, ShipType
+from src.utils.utils import Coords, anything, ShotResult, ShipType
 
 
 class Ship:

@@ -4,8 +4,8 @@ from random import uniform
 import pygame
 
 from src.game import Game
-from src.ui_abc import UI
-from src.utils import ShotResult, Players, IllegalMove, ShipType
+from src.ui.ui_abc import UI
+from src.utils.utils import ShotResult, Players, IllegalMove
 
 
 class GUI(UI):

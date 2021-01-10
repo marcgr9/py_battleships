@@ -2,7 +2,7 @@
 # marc, marc@gruita.ro
 from abc import ABC, abstractmethod
 
-from src.utils import ShipType, ShotResult, Players
+from src.utils.utils import ShipType, ShotResult, Players
 
 
 class UI(ABC):

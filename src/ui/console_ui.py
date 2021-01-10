@@ -1,9 +1,9 @@
-# ui.py
+# console_ui.py
 # marc, marc@gruita.ro
 from src.game import Game
 from src.ship import ShipType
-from src.ui_abc import UI
-from src.utils import ShotResult, Players, anything, IllegalMove
+from src.ui.ui_abc import UI
+from src.utils.utils import ShotResult, IllegalMove
 
 
 class ConsoleUI(UI):

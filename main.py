@@ -1,5 +1,5 @@
-from src.gui import GUI
-from src.ui import ConsoleUI
+from src.ui.gui import GUI
+from src.ui.console_ui import ConsoleUI
 
 response = ""
 while response not in ["UI", "GUI"]:
