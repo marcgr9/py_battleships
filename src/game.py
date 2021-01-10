@@ -38,6 +38,10 @@ class Game:
         self.n = 0  # for debugging: counting total ai shots
 
     @property
+    def winner(self):
+        return self._winner
+
+    @property
     def playing(self):
         """
         True if game is ended, else False
