@@ -78,12 +78,13 @@ class Game:
             except Exception:
                 pass
 
-    def __ai_shoot(self):
+    def __ai_shoot(self, x=-1, y=-1):
         """
         Dumb ai shots; picking a random spot that wasn't fired at yet
         """
-        x = randint(0, 9)
-        y = randint(0, 9)
+        if (x, y) == (-1, -1):
+            x = randint(0, 9)
+            y = randint(0, 9)
         while (anything, x, y) in self._ai_moves:
             x = randint(0, 9)
             y = randint(0, 9)
