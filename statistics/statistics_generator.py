@@ -3,11 +3,7 @@
 from datetime import datetime
 from random import randint
 
-from src.ai import AI
-from src.board import Board
 from src.game import Game
-from src.ship import ShipType, Ship
-from src.utils import ShotResult, anything
 
 
 def game_simulations():
