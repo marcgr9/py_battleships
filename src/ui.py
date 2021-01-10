@@ -1,12 +1,11 @@
 # ui.py
 # marc, marc@gruita.ro
-from src.board import Board
 from src.game import Game
 from src.ship import ShipType
 from src.utils import ShotResult, Players, anything
 
 
-class UI:
+class ConsoleUI:
     def __init__(self):
         self.__game = Game(10)
 
@@ -64,7 +63,3 @@ class UI:
             print(str(self.__game.player_board).splitlines()[i] + " " * 10 + str(self.__game.shots_board).splitlines()[i])
 
         print("\n")
-
-
-ui = UI()
-ui.play()

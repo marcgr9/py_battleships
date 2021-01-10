@@ -1,7 +1,5 @@
 # gui.py
 # marc, marc@gruita.ro
-from time import sleep
-
 import pygame
 
 from src.game import Game
@@ -9,6 +7,10 @@ from src.utils import ShotResult, Players, IllegalMove
 
 
 class GUI:
+    """
+    spaghetti code
+    It's a mess right now but I'll fix it
+    """
 
     tile_size = 50
     separation_width = 20
@@ -191,7 +193,3 @@ class GUI:
 
     def __check_mouse(self, mousex, mousey, shooting=False):
         return (True if not shooting else mousex >= self.__screen_width + 20) and mousey <= self.__screen_height
-
-
-ui = GUI()
-ui.play()
