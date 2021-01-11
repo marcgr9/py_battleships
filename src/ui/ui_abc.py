@@ -2,7 +2,7 @@
 # marc, marc@gruita.ro
 from abc import ABC, abstractmethod
 
-from src.utils.utils import ShipType, ShotResult, Players
+from src.utils.utils import ShipType, ShotResult, Player
 
 
 class UI(ABC):
@@ -21,8 +21,8 @@ class UI(ABC):
     }
 
     players = {
-        Players.AI: "AI",
-        Players.HUMAN: "You"
+        Player.AI: "AI",
+        Player.HUMAN: "You"
     }
 
     @abstractmethod

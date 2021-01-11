@@ -52,7 +52,7 @@ class ShotResult(Enum):
 
 
 @unique
-class Players(Enum):
+class Player(Enum):
     HUMAN = 0
     AI = 1
 

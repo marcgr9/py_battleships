@@ -6,7 +6,7 @@ from unittest import TestCase
 from src.board import Board
 from src.game import Game
 from src.ship import Ship, ShipType
-from src.utils.utils import Players, IllegalMove, ShotResult
+from src.utils.utils import Player, IllegalMove, ShotResult
 
 
 class TestBattleship(TestCase):
@@ -34,7 +34,7 @@ class TestBattleship(TestCase):
             self.game.start()
             while self.game.playing:
                 self.game.shoot(randint(0, 9), randint(0, 9))
-            self.assertEqual(self.game._winner, Players.AI)
+            self.assertEqual(self.game._winner, Player.AI)
 
     def test_board(self):
         self.board = Board(2)
@@ -85,7 +85,7 @@ class TestBattleship(TestCase):
         self.assertEqual(game.shoot(0, 1), (ShotResult.SUNK, ShipType.PATROL_BOAT))
 
         game.shoot(9, 9)
-        self.assertEqual(game.shoot(8, 9), (ShotResult.WON, Players.HUMAN))
+        self.assertEqual(game.shoot(8, 9), (ShotResult.WON, Player.HUMAN))
 
         del game
         game = Game(10)
@@ -94,7 +94,7 @@ class TestBattleship(TestCase):
             ship._sunk = True
 
         game._Game__get_winner()
-        self.assertEqual(game.winner, Players.HUMAN)
+        self.assertEqual(game.winner, Player.HUMAN)
 
         game._Game__ai_shoot()
         game._Game__ai_shoot(1, 1)

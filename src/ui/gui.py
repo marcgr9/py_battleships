@@ -5,7 +5,7 @@ import pygame
 
 from src.game import Game
 from src.ui.ui_abc import UI
-from src.utils.utils import ShotResult, Players, IllegalMove
+from src.utils.utils import ShotResult, Player, IllegalMove
 
 
 class GUI(UI):
@@ -211,7 +211,7 @@ class GUI(UI):
                                  rect=(y + self.__screen_width + self.separation_width, x, part_filled, part_filled))
 
                 try:  # easier to ask for forgiveness than permission
-                    if response[0] == ShotResult.SUNK or response == (ShotResult.WON, Players.HUMAN):
+                    if response[0] == ShotResult.SUNK or response == (ShotResult.WON, Player.HUMAN):
                         image = self.__explosion[part_filled // 6]
                         offset = uniform(0.8, 1.7)
                         image = pygame.transform.scale(image,
@@ -231,7 +231,7 @@ class GUI(UI):
             text = "Sunk " + self.ship_names[response[1]]
         elif type(response) == ShotResult:
             text = self.shot_responses[response]
-        elif type(response) == Players:
+        elif type(response) == Player:
             text = self.players[response] + " won! Press any key to start a new game"
         elif type(response) == str:
             text = response

@@ -5,7 +5,7 @@ from random import randint
 from src.ai import AI
 from src.board import Board
 from src.ship import Ship
-from src.utils.utils import ShotResult, Players, anything, ShipType
+from src.utils.utils import ShotResult, Player, anything, ShipType
 
 
 class Game:
@@ -155,9 +155,9 @@ class Game:
             winner: Player, if the game has ended; winner - winner of the game
         """
         if self._player_board.all_sunk():
-            self._winner = Players.AI
+            self._winner = Player.AI
         if self._ai_board.all_sunk():
-            self._winner = Players.HUMAN
+            self._winner = Player.HUMAN
 
         return self._winner
 
