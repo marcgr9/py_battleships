@@ -28,7 +28,7 @@ class Board:
         for row in self._board:
             for n in row:
                 msg += self.nums_to_chars[n] if n > -500 else '-'
-                msg += " "
+                msg += "  "
             msg += "\n"
         msg = msg[:-1]
         return msg

@@ -60,7 +60,7 @@ class ConsoleUI(UI):
                 print("Can't place this ship here. It's either too big or outside the playable area\n")
 
     def print_board(self):
-        print("Your board:" + " " * 19 + "Your shots board:")
+        print("Your board:" + " " * 29 + "Your shots board:")
         for i in range(self.__game.player_board.size):
             print(str(self.__game.player_board).splitlines()[i] + " " * 10 + str(self.__game.shots_board).splitlines()[i])
 
