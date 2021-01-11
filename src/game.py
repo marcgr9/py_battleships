@@ -98,7 +98,18 @@ class Game:
         Adds the chosen shot to ai's list of moves
         Increments the number of shots fired by the ai - for debugging
         """
-        x, y = self.__ai.calculate_shot(self._player_board.ships)
+        sunken_ships = []
+        unsunken_ships = []
+
+        # not sending to the ai the positions of unsunken ships
+        # even if it didn't use them before this modification!!
+        for s in self._player_board.ships:
+            if s.sunk:
+                sunken_ships.append(s)
+            else:
+                unsunken_ships.append(Ship(s.type))
+
+        x, y = self.__ai.calculate_shot([*sunken_ships, *unsunken_ships])
         result = self._player_board.shoot(x, y)
         self.n += 1
         self.__ai.add_move((result, x, y))
