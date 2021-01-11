@@ -198,7 +198,7 @@ class GUI(UI):
 
     def __shoot(self, mousex, mousey):
         x, y = mousey // self.tile_size * self.tile_size, \
-               (mousex - self.__screen_width - 20) // self.tile_size * self.tile_size
+               (mousex - self.__screen_width - self.separation_width) // self.tile_size * self.tile_size
 
         response = self.__game.shoot(x // self.tile_size, y // self.tile_size)
 
@@ -216,7 +216,7 @@ class GUI(UI):
                         offset = uniform(0.8, 1.7)
                         image = pygame.transform.scale(image,
                                                        (int(self.tile_size * offset), int(self.tile_size * offset)))
-                        self.__screen.blit(image, (y + self.__screen_width + 20, x))
+                        self.__screen.blit(image, (y + self.__screen_width + self.separation_width, x))
                 except (IndexError, TypeError):
                     pass
 
@@ -239,7 +239,7 @@ class GUI(UI):
             self._text_area = None
             return
 
-        text_object = pygame.font.Font('freesansbold.ttf', 20).render(text, True, (255, 200, 130))
+        text_object = pygame.font.Font('freesansbold.ttf', self.bottom_margin//2).render(text, True, (255, 200, 130))
         text_rect = text_object.get_rect()
         width = self.__screen_width // 2 if not full else self.__screen_width + self.separation_width // 2
         text_rect.center = (width, self.__screen_height + self.bottom_margin // 2)
