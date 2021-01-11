@@ -1,5 +1,6 @@
 # ai.py
 # marc, marc@gruita.ro
+from random import randint
 from time import sleep
 
 from src.board import Board
@@ -84,6 +85,9 @@ class AI:
                 if prob_board.board[i][j] > max_prob:
                     final_x, final_y = i, j
                     max_prob = prob_board.board[i][j]
+                elif prob_board.board[i][j] == max_prob:
+                    if randint(0, 10) < 5:
+                        final_x, final_y = i, j
         return final_x, final_y
 
     def add_move(self, move: tuple):
