@@ -41,7 +41,7 @@ class TestBattleship(TestCase):
         self.assertEqual(self.board.size, 2)
 
         self.assertEqual(self.board.board, [[0, 0], [0, 0]])
-        self.assertEqual(str(self.board), "o o \no o ")
+        self.assertEqual(str(self.board), "o  o  \no  o  ")
         with self.assertRaises(IllegalMove):
             self.board.place_ship(Ship(ShipType.SUBMARINE, 0, 0, 0))
         with self.assertRaises(IllegalMove):
