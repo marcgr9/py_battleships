@@ -21,10 +21,10 @@ class AI:
         self.offset = offset
         self.__moves = []
 
-    def calculate_shot(self, player_ships):
+    def calculate_shot(self, player_ships: list):
         """
         Computes the most likely spot that contains a ship
-        :param player_ships: list of remaining ships
+        :param player_ships: list of Ship objects
         :return: (int, int)
 
         pseudocode:
@@ -55,11 +55,12 @@ class AI:
 
             if move[0] == ShotResult.HIT:
                 if any(ship.sunk and [anything, x, y] in ship.pieces for ship in player_ships):
+                    # part of a sunken ship; no need to increase neighbours probability
                     continue
 
                 for (i, j) in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
                     try:  # easier to ask for forgiveness that permission :d
-                        if (ShotResult.HIT, x - i, y - j) in self.__moves:
+                        if (ShotResult.HIT, x - i, y - j) in self.__moves:  # opposite neighbour
                             prob_board.board[x + i][y + j] += self.offset
                         prob_board.board[x + i][y + j] += self.offset
                     except IndexError:
@@ -71,12 +72,12 @@ class AI:
             if not s.sunk:
                 for i in range(self.__size):
                     for j in range(self.__size):
-                        for o in range(0, 2):
+                        for o in range(0, 2):  # for every ship placement possible, using UNSUNKEN ships
                             try:
                                 board.check(Ship(s.type, o, i, j))
                                 for offset in range(s.size):
                                     x, y = i - offset * o, j + offset * (not o)
-                                    prob_board.board[x][y] += 1
+                                    prob_board.board[x][y] += 1  # increase the probability of each piece
                             except IllegalMove:
                                 pass
 
@@ -86,14 +87,14 @@ class AI:
                     final_x, final_y = i, j
                     max_prob = prob_board.board[i][j]
                 elif prob_board.board[i][j] == max_prob:
-                    if randint(0, 10) < 5:
+                    if randint(0, 10) < 5:  # random aspect to the ai, harder to predict
                         final_x, final_y = i, j
         return final_x, final_y
 
     def add_move(self, move: tuple):
         """
         Adds given move to the list of past moves
-        :param move:
+        :param move: (ShotResult, int, int)
         """
         self.__moves.append(move)
 
