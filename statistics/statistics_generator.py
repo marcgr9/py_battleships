@@ -11,7 +11,7 @@ def game_simulations():
     Calculates the avg shots needed for each ai offset to complete a game
     :return:
     """
-    file_str = "game/statistics_new_ai.txt"
+    file_str = "new_ai/statistics_new_ai.txt"
     iterations = 1000  # 4:30 min / offset
     f = open(file_str, "a+")
     f.write(f"{datetime.now().strftime('%m/%d/%Y %H:%M:%S')}: Starting simulating {iterations} games for" +
@@ -53,7 +53,7 @@ def game_simulations_v2():
     """
     Calculates how many games end in x ai shots, x in [0, 100], out of @iteration games
     """
-    file_str = "game/new_statistics_new_ai.txt"
+    file_str = "new_ai/new_statistics_new_ai.txt"
     iterations = 10000
     ai_offset = 33
 
