@@ -40,7 +40,10 @@ class ConsoleUI(UI):
 
             o, x, y = None, None, None
             while o not in [0, 1]:
-                o = int(input("Orientation (1 - vertical, 0 - horizontal) = "))
+                try:
+                    o = int(input("Orientation (1 - vertical, up; 0 - horizontal, right) = "))
+                except ValueError:
+                    pass
 
             while type(x) != int:
                 try:
