@@ -11,6 +11,15 @@ from src.utils.utils import ShotResult, anything, IllegalMove
 class AI:
     """
     AI module that covers everything related to the BattleShip AI
+
+    It uses only public game info!!
+    past hits results - the opponent announces if you hit/miss/sunk a ship
+    sunken ships spots - sunken ships are public data as the opponent announces when you've sunk one
+    remaining unsunken ships sizes - you know what the sunken ships are, so the others are the unsunken ships
+
+
+    the ai evolution can be seen in /statistics
+    from 55 avg shoots needed down to 44 :D
     """
     def __init__(self, board_size: int, offset: int):
         """
@@ -24,7 +33,7 @@ class AI:
     def calculate_shot(self, player_ships: list):
         """
         Computes the most likely spot that contains a ship
-        :param player_ships: list of Ship objects
+        :param player_ships: list of Ship objects; unsunken ships shouldn't contain any pieces or coordinates
         :return: (int, int)
 
         pseudocode:
@@ -69,10 +78,10 @@ class AI:
         final_x, final_y = 0, 0
         max_prob = -1
         for s in player_ships:
-            if not s.sunk:
+            if not s.sunk:  # the only time we use unsunken ships; we use just their size
                 for i in range(self.__size):
                     for j in range(self.__size):
-                        for o in range(0, 2):  # for every ship placement possible, using UNSUNKEN ships
+                        for o in range(0, 2):  # for every (x, y, orientation) possible
                             try:
                                 board.check(Ship(s.type, o, i, j))
                                 for offset in range(s.size):
